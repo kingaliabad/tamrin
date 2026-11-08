@@ -1,0 +1,47 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'app.hamrah.tamrin'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId 'app.hamrah.tamrin'
+        minSdk 29
+        targetSdk 34
+        // شماره بیلد گیت‌هاب به‌عنوان versionCode تا هر نسخه جدید روی قبلی نصب شود
+        versionCode Integer.parseInt(System.getenv('GITHUB_RUN_NUMBER') ?: '1')
+        versionName '1.1.0'
+    }
+
+    signingConfigs {
+        release {
+            storeFile file('keystore/hamrah.jks')
+            storePassword 'hamrah123'
+            keyAlias 'hamrah'
+            keyPassword 'hamrah123'
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    lint {
+        abortOnError false
+        checkReleaseBuilds false
+    }
+}
+
+dependencies {
+    implementation 'androidx.webkit:webkit:1.11.0'
+}
